@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "tictactoe"
+version = "0.0.1"
+description = "Tictactoe with PyGame's lib"
+authors = ["Fabrício Dos Santos Moreira"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pygame = "2.6.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+isort = "^5.13.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 140
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
