@@ -1,0 +1,33 @@
+{
+    "SCREEN": {
+        "WIDTH": 1024,
+        "HEIGHT": 768,
+        "OFFSET": 0.10
+    },
+
+    "GAME": {
+        "START_SYMBOL": "X",
+        "CONSECUTIVE_SYMBOLS_TO_WIN": 3,
+        "BOARD_SIZE": 3,
+
+        "X_COLOR": [255, 255, 255],
+        "X_THICKNESS": 5,
+        "X_OFFSET": 0.0,
+
+        "O_COLOR": [0, 0, 0],
+        "O_THICKNESS": 5,
+        "O_OFFSET": 0.0,
+
+        "BOARD_COLOR": [216, 216, 216],
+        "BOARD_THICKNESS": 3,
+
+        "WIN_LINE_COLOR": [33, 255, 92],
+        "WIN_LINE_THICKNESS": 3
+    },
+
+    "UTIL": {
+        "CAPTION": "TicTacToe v0.0.1",
+        "BOARD_BACKGROUND_PATH": "TicTacToe/assets/images/board_background.jpg",
+        "OUT_LAYER_BACKGROUND_PATH": "TicTacToe/assets/images/out_layer_background.jpg"
+    }
+}
