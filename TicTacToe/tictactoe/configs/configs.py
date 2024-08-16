@@ -62,10 +62,10 @@ class Configs:
         self.CAPTION: str = self.get_configs("UTIL", "CAPTION")
 
         # Backgrounds configs
-        self.BOARD_BACKGROUND: pg.Surface = pg.image.load(self.get_configs("UTIL", "BOARD_BACKGROUND_PATH"))
+        self.BOARD_BACKGROUND: pg.Surface = pg.image.load(self.ROOT_PATH / self.get_configs("UTIL", "BOARD_BACKGROUND_PATH"))
         self.BOARD_BACKGROUND: pg.Surface = pg.transform.scale(self.BOARD_BACKGROUND, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
 
-        self.OUT_LAYER_BACKGROUND: pg.Surface = pg.image.load(self.get_configs("UTIL", "OUT_LAYER_BACKGROUND_PATH"))
+        self.OUT_LAYER_BACKGROUND: pg.Surface = pg.image.load(self.ROOT_PATH / self.get_configs("UTIL", "OUT_LAYER_BACKGROUND_PATH"))
         self.OUT_LAYER_BACKGROUND: pg.Surface = pg.transform.scale(self.OUT_LAYER_BACKGROUND, (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
 
 

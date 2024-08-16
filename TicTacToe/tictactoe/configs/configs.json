@@ -27,7 +27,7 @@
 
     "UTIL": {
         "CAPTION": "TicTacToe v0.0.1",
-        "BOARD_BACKGROUND_PATH": "TicTacToe/assets/images/board_background.jpg",
-        "OUT_LAYER_BACKGROUND_PATH": "TicTacToe/assets/images/out_layer_background.jpg"
+        "BOARD_BACKGROUND_PATH": "assets/images/board_background.jpg",
+        "OUT_LAYER_BACKGROUND_PATH": "assets/images/out_layer_background.jpg"
     }
 }
