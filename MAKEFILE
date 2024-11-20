@@ -1,0 +1,11 @@
+.PHONY: install run
+
+install:
+	@echo "[INFO] - - -> Instaling TicTacToe..." \
+	&& pip install poetry                        \
+	&& poetry install   
+
+run:
+	@echo "[INFO] - - -> Running TicTacToe..." \
+	&& cd ./TicTacToe/                         \
+	&& poetry run python main.py
