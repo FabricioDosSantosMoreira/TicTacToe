@@ -50,20 +50,15 @@ class Game():
 
 
     def handle_keys(self, pressed_keys: Any) -> None:
-        # Key 'u' to update
-        if pressed_keys[pg.K_u]:
-            self.update()
-
-        # Key 'r' to start a new game
+        # Press key 'R' to restart the game with the current configurations
         if pressed_keys[pg.K_r]:
             self.is_game_already_won = self.app.logic.new_game()
 
-        # Key 'n' to start a new default game
+        # Press key 'N' to start a new game with the default settings
         if pressed_keys[pg.K_n]:
             self.update()
-            self.is_game_already_won = self.app.logic.new_game()
 
-        # Keys '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' to start a new custom game
+        # Press keys '1' to '0' to start a new game with predefined custom configurations
         if pressed_keys[pg.K_1]:
             custom_configs = {"GAME": {"X_COLOR": (0, 128, 128), "O_COLOR": (255, 165, 0), "BOARD_COLOR": (70, 130, 180), "BOARD_SIZE": 3}}
             self.update(custom_configs=custom_configs)
