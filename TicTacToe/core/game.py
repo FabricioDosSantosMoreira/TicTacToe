@@ -1,12 +1,14 @@
+from typing import Any
+
 import pygame as pg
 
 
-class Game:
+class Game():
 
     def __init__(self, app) -> None:
-        from main import Main
+        from main import Application
 
-        self.app: Main = app
+        self.app: Application = app
 
         self.is_game_already_won: bool = False
 
@@ -26,34 +28,42 @@ class Game:
     def loop(self) -> None:
         self.update()
 
-        while self.app.is_running:
 
+        while self.app.is_running:
             pressed_keys = pg.key.get_pressed()
             pressed_mouse_buttons = pg.mouse.get_pressed()
 
-            # Left click
+            # Left Click
             if pressed_mouse_buttons[0]:
                 if not self.is_game_already_won:
                     pg.time.wait(100)
-                    self.is_game_already_won = self.app.logic.next_move(self.is_game_already_won)
+                    self.app.logic.next_move(self.is_game_already_won)
+
+                    if not self.is_game_already_won:
+                        self.is_game_already_won, msg = self.app.logic.check_win_or_draw()
+                        if msg is not None:
+                            print(f"\n[INFO] - - -> {msg}")
 
             self.handle_keys(pressed_keys)
             self.handle_events()
+            self.app.screen.update_display()
 
-            self.app.screen.display_update()
 
-
-    def handle_keys(self, pressed_keys) -> None:
-
-        # Update
+    def handle_keys(self, pressed_keys: Any) -> None:
+        # Key 'u' to update
         if pressed_keys[pg.K_u]:
             self.update()
 
-        # Restart
+        # Key 'r' to start a new game
         if pressed_keys[pg.K_r]:
             self.is_game_already_won = self.app.logic.new_game()
 
-        # New game
+        # Key 'n' to start a new default game
+        if pressed_keys[pg.K_n]:
+            self.update()
+            self.is_game_already_won = self.app.logic.new_game()
+
+        # Keys '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' to start a new custom game
         if pressed_keys[pg.K_1]:
             custom_configs = {"GAME": {"X_COLOR": (0, 128, 128), "O_COLOR": (255, 165, 0), "BOARD_COLOR": (70, 130, 180), "BOARD_SIZE": 3}}
             self.update(custom_configs=custom_configs)
@@ -109,3 +119,5 @@ class Game:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.quit()
+            elif event.type == pg.VIDEORESIZE:
+                self.app.screen.resize_display(event.w, event.h)

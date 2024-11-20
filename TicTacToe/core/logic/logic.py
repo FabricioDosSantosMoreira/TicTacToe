@@ -1,61 +1,68 @@
-from typing import List, Optional
+from typing import List, Tuple
 
-from configs.configs import Configs
+from core.configs import GameConfigs
 
 
-class GameLogic:
+class GameLogic():
 
     def __init__(self, app) -> None:
-        from main import Main
+        from main import Application
 
-        self.app: Main = app
+        self.app: Application = app
 
+        # Attributes
+        self.game_board:                 List[List[str]] = None
+        self.board_size:                 int             = None
+        self.current_symbol:             str             = None
+        self.consecutive_symbols_to_win: int             = None
+        
         self.update()
 
 
     def update(self) -> None:
-        configs: Configs = self.app.configs
+        _configs: GameConfigs = self.app.configs
 
-        self.board_size = configs.BOARD_SIZE
-        self.current_symbol = configs.START_SYMBOL
-        self.consecutive_symbols_to_win = configs.CONSECUTIVE_SYMBOLS_TO_WIN
+        # Update all attributes
+        self.board_size = _configs.BOARD_SIZE
+        self.current_symbol = _configs.START_SYMBOL
+        self.consecutive_symbols_to_win = _configs.CONSECUTIVE_SYMBOLS_TO_WIN
 
         self.game_board = self.empty_tictactoe_board()
-
+        
 
     def empty_tictactoe_board(self) -> List[List[str]]:
-
-        return [["" for _ in range(self.board_size)] for _ in range(self.board_size)]
+        return [['' for _ in range(self.board_size)] for _ in range(self.board_size)]
 
 
     def new_game(self) -> None:
         if self.consecutive_symbols_to_win > self.board_size:
+            print(f"\nWARNING - - - > Invalid ['consecutive_symbols_to_win'] value set in ['configs']!")
+            print(f"\nWARNING - - - > ['consecutive_symbols_to_win'] was set to {self.board_size}!")
+
+            # Override 'consecutive_symbols_to_win' to 'board_size'
             self.consecutive_symbols_to_win = self.board_size
-            print("\nWARNING - - - > Invalid ['consecutive_symbols_to_win'] value set in ['configs']")
 
         self.game_board = self.empty_tictactoe_board()
 
-        self.app.screen.display_blit()
+        # Reloading the screen
+        self.app.screen.update_display()
+        self.app.screen.blit_display()
         self.app.screen.draw_tictactoe_board(self.board_size)
 
 
-    def next_move(self, already_won: bool) -> bool:
+    def next_move(self, already_won: bool) -> None:
         row, col = self.app.screen.get_mouse_pos(self.board_size)
 
         if row == -1 and col == -1:
-            print("\nWARNING - - - > Out of screen!")
-        elif self.game_board[row][col] == "" and not already_won:
+            print("\nWARNING - - - > Out of the game screen!")
+
+        elif self.game_board[row][col] == '' and not already_won:
             self.app.screen.draw_symbol(row, col, self.board_size, self.current_symbol)
             self.game_board[row][col] = self.current_symbol
             self.current_symbol = "O" if self.current_symbol == "X" else "X"
 
-        already_won, msg = self.app.logic.check_win_or_draw()
-        print(msg)
 
-        return True if already_won else False
-
-
-    def check_win_or_draw(self):  # TODO: Fix me
+    def check_win_or_draw(self) -> Tuple[bool, str]: 
         symbol_to_check = "O" if self.current_symbol == "X" else "X"
 
         # Check for a horizontal win
@@ -148,7 +155,7 @@ class GameLogic:
         if all(self.game_board[row][col] != "" for row in range(self.board_size) for col in range(self.board_size)):
             return True, "It's a draw!"
 
-        return False, "Checked!"
+        return False, None
 
 
     def get_game_board_line(self, start_row: int, start_col: int, direction: str) -> List[str]:
@@ -165,14 +172,14 @@ class GameLogic:
         elif direction == "main-diagonal":
             for i in range(self.board_size):
                 if (start_row + i >= self.board_size) or (start_col + i >= self.board_size):
-                    break  # TODO
+                    break  
                 else:
                     game_board_line.append(self.game_board[start_row + i][start_col + i])
 
         elif direction == "anti-diagonal":
             for i in range(self.board_size):
                 if ((start_row - i) < 0) or ((start_col + i) >= self.board_size):
-                    break  # TODO
+                    break
                 else:
                     game_board_line.append(self.game_board[start_row - i][start_col + i])
 

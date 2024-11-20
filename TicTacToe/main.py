@@ -1,13 +1,11 @@
-import sys
-
 import pygame as pg
-from configs.configs import Configs
-from core.logic.game_logic import GameLogic
-from core.screen import Screen
-from game import Game
+
+from core import Game, Screen
+from core.configs import GameConfigs
+from core.logic import GameLogic
 
 
-class Main:
+class Application():
 
     def __init__(self) -> None:
         self.is_running: bool = True
@@ -18,9 +16,10 @@ class Main:
     def on_init(self) -> None:
         pg.init()
 
-        self.configs = Configs()
-        self.screen = Screen(self)
+        self.configs = GameConfigs()
         self.logic = GameLogic(self)
+
+        self.screen = Screen(self)
         self.game = Game(self)
 
 
@@ -37,9 +36,10 @@ class Main:
     def quit(self) -> None:
         if not self.is_running:
             pg.quit()
-            sys.exit("TicTacToe says goodbye!")
+        
+            quit("\nBye Bye from TicTacToe v1.0.0!")
 
 
 if __name__ == "__main__":
-    app = Main()
+    app = Application()
     app.run()
